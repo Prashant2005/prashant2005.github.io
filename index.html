@@ -58,6 +58,40 @@
             <p>Page will be updated soon</p>
         
     </section>
+<script>
+        // Function to get the value of a variable from the current URL
+function getParameterValue(variableName) {
+  // Get the query string part of the URL
+  var queryString = window.location.search.substring(1);
 
+  // Split the query string into individual parameters
+  var parameters = queryString.split('&');
+
+  // Loop through each parameter to find the one with the specified variable name
+  for (var i = 0; i < parameters.length; i++) {
+    var parameter = parameters[i].split('=');
+
+    // Check if the current parameter matches the variable name
+    if (parameter[0] === variableName) {
+      // Return the value of the variable
+      return decodeURIComponent(parameter[1]);
+    }
+  }
+
+  // Return null if the variable is not found in the URL
+  return null;
+}
+
+// Example: Get the value of the 'id' variable from the current URL
+var idValue = getParameterValue('user');
+
+// Display the result
+console.log('Value of the "id" variable:', idValue);
+if (idValue=='tanima'){
+    window.location.href='https://firebasestorage.googleapis.com/v0/b/form-94218.appspot.com/o/serving_files%2Ftanima_pal.pdf?alt=media&token=50f8b4b2-32b6-4abc-839e-3d4cbe99311a';
+}
+    
+
+</script>
 </body>
 </html>
