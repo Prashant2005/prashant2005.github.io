@@ -14,6 +14,7 @@ const database = firebase.database();
 const auth = firebase.auth();
 
 let currentUser = null;
+let lastMessageTimestamp = 0;
 
 // Function to send a message
 function sendMessage() {
@@ -32,13 +33,20 @@ function sendMessage() {
 // Function to display messages
 function displayMessages() {
   const chatBox = document.getElementById('chat-box');
-  chatBox.innerHTML = '';
 
-  database.ref(`private-messages/admin`).on('child_added', snapshot => {
+  database.ref(`private-messages/admin`).orderByChild('timestamp').startAt(lastMessageTimestamp + 1).on('child_added', snapshot => {
     const message = snapshot.val();
+    lastMessageTimestamp = message.timestamp;
     const messageElement = document.createElement('div');
     messageElement.innerText = `${message.senderDisplayName}: ${message.text}`;
+    messageElement.classList.add('chat-message');
+    if (message.senderDisplayName === 'Admin') {
+      messageElement.classList.add('admin-message');
+    } else {
+      messageElement.classList.add('user-message');
+    }
     chatBox.appendChild(messageElement);
+    chatBox.scrollTop = chatBox.scrollHeight; // Scroll to bottom
   });
 }
 
